@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+import App from '@/src/app/App';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
 root.render(
   <React.StrictMode>
-    <h1>Hello, World!</h1>
+    <App cardsCount={5} />
   </React.StrictMode>
 );
