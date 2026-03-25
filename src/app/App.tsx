@@ -7,30 +7,33 @@ import FavouritesPage from '@/src/pages/FavouritesPage';
 import OfferPage from '@/src/pages/OfferPage';
 import ErrNotFoundPage from '@/src/pages/ErrNotFoundPage';
 import PrivateRoute from '@/src/PrivateRoute';
+import type { Offer } from '@/src/mocks/offers';
 
+type AppProps = {
+  offers: Offer[];
+};
 
-type Settings = {
-    cardsCount: number;
-}
+const App: React.FC<AppProps> = ({ offers }: AppProps) => {
+  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
-
-const App: React.FC<Settings> = ({ cardsCount }: Settings) => (
-  <BrowserRouter>
-    <Routes>
-      <Route path={AppRoutes.Main} element={<MainPage cardsCount={cardsCount} />} />
-      <Route path={AppRoutes.Login} element={<LoginPage />} />
-      <Route
-        path={AppRoutes.Favorites}
-        element={
-          <PrivateRoute auth={false}>
-            <FavouritesPage />
-          </PrivateRoute>
-        }
-      />
-      <Route path={AppRoutes.Offer} element={<OfferPage />} />
-      <Route path="*" element={<ErrNotFoundPage />} />
-    </Routes>
-  </BrowserRouter>
-);
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path={AppRoutes.Main} element={<MainPage offers={offers} />} />
+        <Route path={AppRoutes.Login} element={<LoginPage />} />
+        <Route
+          path={AppRoutes.Favorites}
+          element={
+            <PrivateRoute auth={false}>
+              <FavouritesPage favoriteOffers={favoriteOffers} />
+            </PrivateRoute>
+          }
+        />
+        <Route path={AppRoutes.Offer} element={<OfferPage offers={offers} />} />
+        <Route path="*" element={<ErrNotFoundPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
 export default App;
