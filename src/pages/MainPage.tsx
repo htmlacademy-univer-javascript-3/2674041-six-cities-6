@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -37,8 +37,11 @@ const MainPage = () => {
   const [sort, setSort] = useState('Popular');
   const [hoverId, setHoverId] = useState<string | null>(null);
 
-  const inCity = allOffers.filter((o) => o.city === city);
-  const shown = sortOffers(inCity, sort);
+  const inCity = useMemo(
+    () => allOffers.filter((o) => o.city === city),
+    [allOffers, city]
+  );
+  const shown = useMemo(() => sortOffers(inCity, sort), [inCity, sort]);
 
   return (
     <div className="page page--gray page--main">
